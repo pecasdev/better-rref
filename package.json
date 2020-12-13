@@ -1,6 +1,6 @@
 {
   "name": "better-rref",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Solve systems of linear equations using gaussian elimination. Supports non-homogeneous systems too!",
   "main": "better-rref.js",
   "scripts": {
