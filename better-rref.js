@@ -44,50 +44,57 @@ function ref(A, b=null) {
             subRow(A[pivot], A[r], scale);
             b[r] = b[r].sub(b[pivot].times(scale));
             
-            //matrixPrint(A, b);
+            matrixPrint(A, b);
         }
     }
 
     // reduce all leading values to 1s
     for (var pivot=0; pivot!=Math.min(A.length, A[0].length); pivot++) {
-        //console.log("scaling", A[pivot], pivot);
+        console.log("scaling", A[pivot], pivot);
         if (A[pivot][pivot] != 0) {
             b[pivot] = b[pivot].dividedBy(A[pivot][pivot]);
             divRow(A[pivot], A[pivot][pivot]);
             
-            //matrixPrint(A, b);
+            matrixPrint(A, b);
         }
     }
-    //console.log("scaling done");
-
+    console.log("scaling done");
     return A, b;
 }
 
 function rref(A, b=null) {
     A, b = ref(A, b);
-    //console.log("ref done");
+    console.log("ref done");
 
     
     // remove all non-zero values from leading 1s' columns
     var rank = matrixRank(A);
-    //console.log("rank:", rank);
+    console.log("rank:", rank);
     for (var pivot=0; pivot!=rank; pivot++) {
         for (var p=0; p!=pivot; p++) {
             if (A[p][pivot] != 0) {
                 b[p] = b[p].sub(b[pivot].times(A[p][pivot]));
                 subRow(A[pivot], A[p], A[p][pivot]);
-                //matrixPrint(A, b);
+                matrixPrint(A, b);
             }
         }
     }
 
-    //console.log("rref done");
+    // round all values to 3 decimal points
+    for (var r=0; r!=A.length; r++) {
+        for (var c=0; c!=A[r].length; c++) {
+            A[r][c] = new Decimal(A[r][c].toFixed(3));
+        }
+        b[r] = new Decimal(b[r].toFixed(2));
+    }
+
+    console.log("rref done");
     return A, b;
 }
 
 function solve(A, b=null) {
     A, b = rref(A, b);
-    //matrixPrint(A, b);
+    matrixPrint(A, b);
 
     // check if infinite solutions
     if (A[0].length > matrixRank(A)) {
